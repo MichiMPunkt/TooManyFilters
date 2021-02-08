@@ -9,6 +9,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using IPALogger = IPA.Logging.Logger;
 
+using BS_Utils.Utilities;
+using BeatSaberMarkupLanguage;
+using HMUI;
+using UnityEngine.UI;
+using System.Reflection;
+using BeatSaberMarkupLanguage.GameplaySetup;
+using System.ComponentModel;
+using SiraUtil.Zenject;
+using TooManyFilters.UI;
+
 namespace TooManyFilters
 {
     [Plugin(RuntimeOptions.SingleStartInit)]
@@ -23,11 +33,10 @@ namespace TooManyFilters
         /// [Init] methods that use a Constructor or called before regular methods like InitWithConfig.
         /// Only use [Init] with one Constructor.
         /// </summary>
-        public void Init(IPALogger logger)
+        public void Init(Zenjector zenjector)
         {
             Instance = this;
-            Log = logger;
-            Log.Info("TooManyFilters initialized.");
+            zenjector.OnMenu<TMFMenuInstaller>();
         }
 
         #region BSIPA Config
@@ -45,16 +54,27 @@ namespace TooManyFilters
         [OnStart]
         public void OnApplicationStart()
         {
-            Log.Debug("OnApplicationStart");
             new GameObject("TooManyFiltersController").AddComponent<TooManyFiltersController>();
 
+            
+            GameplaySetup.instance.AddTab("Too Many Filters", TMFMainTab.ResourceName, TMFMainTab.instance, MenuType.Solo); 
+
+            BSEvents.OnLoad();
+            BSEvents.lateMenuSceneLoadedFresh += CreateTMFUI;
         }
 
         [OnExit]
         public void OnApplicationQuit()
         {
-            Log.Debug("OnApplicationQuit");
 
         }
+
+        private void CreateTMFUI(ScenesTransitionSetupDataSO data)
+        {
+
+        }
+
     }
+
 }
+

@@ -5,7 +5,7 @@
   "author": "MichiMPunkt",
   "version": "0.0.1",
   "description": "Allows you to filter songs in many ways",
-  "gameVersion": "1.12.2",
+  "gameVersion": "1.13.2",
   "dependsOn": {
     "BSIPA": "^4.0.5"
   },
